@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Voximplant} from 'react-native-voximplant';
 
@@ -12,10 +11,6 @@ export default function CallActionBox({onHangupPress, call}) {
     const [cameraType, setCameraType] = useState(Voximplant.Hardware.CameraType.FRONT);
   
     const onReverseCamera = () => {
-
-      // Voximplant.Hardware.CameraManager.getInstance().switchCamera(Voximplant.Hardware.CameraType.BACK);
-      // console.warn('onReverseCamera');
-
       const newCameraType =
         cameraType === Voximplant.Hardware.CameraType.BACK
           ? Voximplant.Hardware.CameraType.FRONT
@@ -28,29 +23,29 @@ export default function CallActionBox({onHangupPress, call}) {
     // const onToggleCamera = () => {
     //   setIsCameraOn(currentValue => !currentValue);
     // };
-  
+
     // const onToggleMicrophone = () => {
     //   setIsMicOn(currentValue => !currentValue);
     // };
+
     const onToggleCamera = () => {
-      const newCameraState = !isCameraOn;
-  
-      // Turn on/off camera in Voximplant SDK
-      Voximplant.Hardware.CameraManager.getInstance().enableCamera(newCameraState);
-  
-      // Update the state
-      setIsCameraOn(newCameraState);
+      setIsCameraOn(currentValue => {
+        const newCameraState = !currentValue;
+        call.current.sendVideo(newCameraState);
+        return newCameraState;
+      });
     };
-  
+    
     const onToggleMicrophone = () => {
-      const newMicState = !isMicOn;
-  
-      // Turn on/off microphone in Voximplant SDK
-      Voximplant.Hardware.AudioDeviceManager.getInstance().setAudioInput(newMicState);
-  
-      // Update the state
-      setIsMicOn(newMicState);
+      setIsMicOn(currentValue => {
+        const newMicState = !currentValue;
+        call.current.sendAudio(newMicState);
+        return newMicState;
+      });
     };
+    
+    
+
 
     return (
         <View style={styles.buttonsContainer}>
@@ -60,7 +55,7 @@ export default function CallActionBox({onHangupPress, call}) {
     
           <TouchableOpacity onPress={onToggleCamera} style={styles.iconButton}>
             <MaterialIcons
-              name={isCameraOn ? 'camera-off' : 'camera'}
+              name={isCameraOn ? 'camera' : 'camera-off'}
             //   name={'camera'}
               size={30}
               color={'white'}
@@ -69,7 +64,7 @@ export default function CallActionBox({onHangupPress, call}) {
     
           <TouchableOpacity onPress={onToggleMicrophone} style={styles.iconButton}>
             <MaterialIcons
-              name={isMicOn ? 'microphone-off' : 'microphone'}
+              name={isMicOn ? 'microphone' : 'microphone-off'}
             //   name={'microphone'}
               size={30}
               color={'white'}
