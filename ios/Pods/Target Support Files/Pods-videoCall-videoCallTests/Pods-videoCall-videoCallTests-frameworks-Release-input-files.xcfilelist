@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-videoCall-videoCallTests/Pods-videoCall-videoCallTests-frameworks.sh
+${PODS_XCFRAMEWORKS_BUILD_DIR}/VoxImplantSDK/VoxImplantSDK.framework/VoxImplantSDK
+${PODS_XCFRAMEWORKS_BUILD_DIR}/VoxImplantWebRTC/VoximplantWebRTC.framework/VoximplantWebRTC
+${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes
